@@ -1,0 +1,17 @@
+{
+    "name": "Akari.Editor",
+    "references": [
+        "GUID:de4bc5d0468dc3143ad039b1fba4d125"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

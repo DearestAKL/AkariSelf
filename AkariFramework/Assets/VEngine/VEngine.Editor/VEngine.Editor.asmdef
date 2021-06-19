@@ -1,0 +1,17 @@
+{
+    "name": "VEngine.Editor",
+    "references": [
+        "GUID:892998f0756cafd419c633706d017d18"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

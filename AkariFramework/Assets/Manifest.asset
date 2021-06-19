@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7882bd278763c45f49cef7deeae496e5, type: 3}
+  m_Name: Manifest
+  m_EditorClassIdentifier: 
+  activeVariants: []
+  dirs:
+  - Assets/GameMain/Res/Prefabs
+  - Assets/GameMain/Res/Prefabs/UI
+  - Assets/GameMain/Res/Scenes
+  - Assets/GameMain/Res/UI/Background
+  - Assets/GameMain/Res/UI/NumberIcon
+  assets:
+  - name: Test.prefab
+    bundle: 1
+    dir: 0
+  - name: UITest.prefab
+    bundle: 0
+    dir: 1
+  - name: Game.unity
+    bundle: 2
+    dir: 2
+  - name: bg_black.png
+    bundle: 3
+    dir: 3
+  - name: 0.png
+    bundle: 4
+    dir: 4
+  - name: 1.png
+    bundle: 4
+    dir: 4
+  - name: 2.png
+    bundle: 4
+    dir: 4
+  - name: 3.png
+    bundle: 4
+    dir: 4
+  - name: 4.png
+    bundle: 4
+    dir: 4
+  - name: 5.png
+    bundle: 4
+    dir: 4
+  - name: 6.png
+    bundle: 4
+    dir: 4
+  - name: 7.png
+    bundle: 4
+    dir: 4
+  - name: 8.png
+    bundle: 4
+    dir: 4
+  - name: 9.png
+    bundle: 4
+    dir: 4
+  bundles:
+  - name: 0dd51a2abb5bc7640680ee8945016072.unity3d
+    id: 0
+    deps: 
+    len: 4379
+    hash: a04099e8aa143830822987120dacb23c
+  - name: 35ee5a3641eed7be19c2345ef5407d5e.unity3d
+    id: 1
+    deps: 
+    len: 1698
+    hash: 3ad214d1f3b1759ce376d4a8c48cf9ed
+  - name: 41e8170ddcb54433404f10b5d4ac1b99.unity3d
+    id: 2
+    deps: 
+    len: 22363
+    hash: dc8ac88977d6596bc2d9b913c2ef97e9
+  - name: 591e9a5918a2a248c8bd4a13714e1b9d.unity3d
+    id: 3
+    deps: 
+    len: 567868
+    hash: 5550ccb925c0185d0d638adb5d20213c
+  - name: 760e661e636697d6931b65da31e51a11.unity3d
+    id: 4
+    deps: 
+    len: 45969
+    hash: 947425a4586162e77be3ecedd6a4c0b0
