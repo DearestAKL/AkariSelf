@@ -212,7 +212,8 @@ namespace Akari
             if (uiPanel == null)
             {
                 //没有 则创建
-                var go = GameEntry.Resource.LoadAsset(panelName, typeof(GameObject)).asset as GameObject;
+                //var go = GameEntry.Resource.LoadAsset(panelName, typeof(GameObject)).asset as GameObject;
+                var go = new GameObject();
                 var panel = GameObject.Instantiate(go);
                 panel.transform.SetParent(m_RootGo.transform);
                 uiPanel = new UIPanel();
