@@ -1,26 +1,30 @@
 ﻿// 此文件由工具自动生成，请勿直接修改。
-// 生成时间：__CREATE_TIME__
+// 生成时间：2021-06-19 16:47:55.081
 //------------------------------------------------------------
 
-namespace __NAME_SPACE__
+
+namespace Akari
 {
-    public class __CLASS_NAME__ : __LINEAL_NAME__
+    public class UILoginSign : UIPanel
     {
 		//---UI---
-		__MEMBER_VARIABLES__
-		
+		protected UnityEngine.UI.Button btn = null;
+		protected UnityEngine.UI.Image img = null;
+
         public override void OnInit(string name, UnityEngine.GameObject go, UnityEngine.Transform parent, object userData)
         {
             base.OnInit(name, go, parent, userData);
             InitUIData();
         }
 
-		public void InitUIData()
+        public void InitUIData()
         {
 
             ReferenceCollector rc = RootGo.GetComponent<ReferenceCollector>();
+
+            btn = rc.Get<UnityEngine.UI.Button>("Button");
+            img = rc.Get<UnityEngine.UI.Image>("Image");
 			
-            __INIT__
         }
     }
 }

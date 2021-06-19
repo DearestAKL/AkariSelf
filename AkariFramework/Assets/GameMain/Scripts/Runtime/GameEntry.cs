@@ -7,14 +7,15 @@ namespace Akari
 {
     public class GameEntry : MonoBehaviour
     {
-        [SerializeField]
-        private Camera m_UICamera;
         [SerializeField][Header("目标帧率")]
         private int targetFrameRate = 120;
 
-        public void Awake()
+        public void OnAwake()
         {
-            UI.OpenUIPanel("UITest", UIGroupType.Base);
+            InitConfig();
+            InitBuiltinComponents();
+
+            GameEntry.UI.OpenUIPanel(UIType.UILogin, UIGroupType.Base);
         }
 
         /// <summary>
@@ -22,7 +23,6 @@ namespace Akari
         /// </summary>
         private void InitConfig()
         {
-            UICamera = m_UICamera;
             Application.targetFrameRate = targetFrameRate;
         }
 
@@ -32,14 +32,9 @@ namespace Akari
         private void InitBuiltinComponents()
         {
             Event = GameFrameworkComponentEntry.GetComponent<EventComponent>();
-            ObjectPool = GameFrameworkComponentEntry.GetComponent<ObjectPoolComponent>();
+            Resource = GameFrameworkComponentEntry.GetComponent<ResourceComponent>();
+            //ObjectPool = GameFrameworkComponentEntry.GetComponent<ObjectPoolComponent>();
             UI = GameFrameworkComponentEntry.GetComponent<UIComponent>();
-        }
-
-        public static Camera UICamera
-        {
-            get;
-            private set;
         }
 
         public static ResourceComponent Resource

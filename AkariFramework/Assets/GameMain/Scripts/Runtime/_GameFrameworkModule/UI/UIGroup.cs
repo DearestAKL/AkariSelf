@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Akari
 {
-    public class UIGroup
+    public class UIGroup : IUIGroup
     {
         private readonly LinkedList<UIPanelInfo> m_UIPanelInfos;
         private LinkedListNode<UIPanelInfo> m_CachedNode;
@@ -15,11 +16,14 @@ namespace Akari
         private GameObject m_RootGo;
         private Canvas m_Canvas;
 
-        public UIGroup(string groupName, int depth, Transform parentTrans)
+        private IUIHelper m_UIHelper;
+
+        public UIGroup(string groupName, int depth, Transform parent, IUIHelper uiResourceHelper)
         {
             m_GroupName = groupName;
             m_Depth = depth;
-            SetRootTrans(parentTrans);
+            m_UIHelper = uiResourceHelper;
+            OnInit(parent);
 
             m_Pause = false;
             m_UIPanelInfos = new LinkedList<UIPanelInfo>();
@@ -27,39 +31,17 @@ namespace Akari
         }
 
         /// <summary>
-        /// 界面组轮询。
-        /// </summary>
-        /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
-        /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
-        public void Update(float elapseSeconds, float realElapseSecond)
-        {
-            LinkedListNode<UIPanelInfo> current = m_UIPanelInfos.First;
-            while (current != null)
-            {
-                if (current.Value.Paused)
-                {
-                    break;
-                }
-
-                m_CachedNode = current.Next;
-                current.Value.UIPanel.OnUpdate();
-                current = m_CachedNode;
-                m_CachedNode = null;
-            }
-        }
-
-        /// <summary>
-        /// 生成并缓存实体
+        /// 初始化 生成并缓存实体
         /// </summary>
         /// <param name="rootGo"></param>
-        private void SetRootTrans(Transform parentTrans) 
+        public void OnInit(Transform parentTrans) 
         {
             var depth = Depth;
 
             m_RootGo = new GameObject(m_GroupName);
             m_Canvas = m_RootGo.GetOrAddComponent<Canvas>();
             m_Canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            m_Canvas.worldCamera = GameEntry.UICamera;
+            m_Canvas.worldCamera = m_UIHelper.UICamera;
             m_RootGo.GetOrAddComponent<GraphicRaycaster>();
 
             Vector2 screenn = new Vector2(1920, 1080);
@@ -78,6 +60,28 @@ namespace Akari
             transform.anchorMax = Vector2.one;
             transform.anchoredPosition = Vector2.zero;
             transform.sizeDelta = Vector2.zero;
+        }
+
+        /// <summary>
+        /// 界面组轮询。
+        /// </summary>
+        /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
+        /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
+        public void OnUpdate(float elapseSeconds, float realElapseSecond)
+        {
+            LinkedListNode<UIPanelInfo> current = m_UIPanelInfos.First;
+            while (current != null)
+            {
+                if (current.Value.Paused)
+                {
+                    break;
+                }
+
+                m_CachedNode = current.Next;
+                current.Value.UIPanel.OnUpdate();
+                current = m_CachedNode;
+                m_CachedNode = null;
+            }
         }
 
         /// <summary>
@@ -120,14 +124,14 @@ namespace Akari
 
                 m_Depth = value;
                 m_Canvas.sortingOrder = m_Depth;
-                Refresh();
+                //Refresh();
             }
         }
 
         /// <summary>
         /// 获取或设置界面组是否暂停。
         /// </summary>
-        public bool Pause
+        public bool IsPause
         {
             get
             {
@@ -141,7 +145,7 @@ namespace Akari
                 }
 
                 m_Pause = value;
-                Refresh();
+                //Refresh();
             }
         }
 
@@ -212,14 +216,22 @@ namespace Akari
             if (uiPanel == null)
             {
                 //没有 则创建
-                //var go = GameEntry.Resource.LoadAsset(panelName, typeof(GameObject)).asset as GameObject;
-                var go = new GameObject();
-                var panel = GameObject.Instantiate(go);
-                panel.transform.SetParent(m_RootGo.transform);
-                uiPanel = new UIPanel();
-                uiPanel.OnInit(panelName, panel, userData);
+                var panel = m_UIHelper.LoadUIAsset(panelName);
+                if(panel == null)
+                {
+                    return;
+                }
+
+                var type = m_UIHelper.GetUIPanelType(panelName);
+                if (type == null)
+                {
+                    return;
+                }
+
+                uiPanel = (UIPanel)Activator.CreateInstance(type);
+                uiPanel.OnInit(panelName, panel, m_RootGo.transform, userData);
                 //缓存下来
-                AddUIPanel(uiPanel);
+                m_UIPanelInfos.AddFirst(UIPanelInfo.Create(uiPanel));
             }
 
             UIPanelInfo uiPanelInfo = GetUIFormInfo(uiPanel);
@@ -263,24 +275,6 @@ namespace Akari
                 return;
             }
 
-            RemoveUIPanel(uiPanel);
-        }
-
-
-        /// <summary>
-        /// 往界面组增加界面。
-        /// </summary>
-        /// <param name="uiForm">要增加的界面。</param>
-        private void AddUIPanel(UIPanel uiPanel)
-        {
-            m_UIPanelInfos.AddFirst(UIPanelInfo.Create(uiPanel));
-        }
-
-        /// <summary>
-        /// 从界面组移除界面。
-        /// </summary>
-        private void RemoveUIPanel(UIPanel uiPanel)
-        {
             UIPanelInfo uiPanelInfo = GetUIFormInfo(uiPanel);
             if (m_CachedNode != null && m_CachedNode.Value.UIPanel == uiPanel)
             {
@@ -297,6 +291,5 @@ namespace Akari
         {
 
         }
-
     }
 }

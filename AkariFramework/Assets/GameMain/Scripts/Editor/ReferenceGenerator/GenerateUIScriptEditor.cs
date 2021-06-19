@@ -14,13 +14,9 @@ public class GenerateUIScriptEditor
     [MenuItem("Assets/自动生成UI脚本", false, 1050)]
     static void GenerateUIScript()
     {
-        //var templateUIBaseFile = Application.dataPath + "/../ScriptMould/UIBaseTemplate.cs";
-        //var templateUIBaseCellFile = Application.dataPath + "/../ScriptMould/UIBaseCellTemplate.cs";
-
         var templateUIBaseFile = "Assets/GameMain/Res/Configs/UIBaseTemplate.txt";
-        //var templateUIBaseCellFile = "Assets/Res/Configs/UIBaseTemplate.txt";
 
-        var outputPath = Application.dataPath + "GameMain/Scripts/Runtime/UI/_GenerateScript/";
+        var outputPath = "Assets/GameMain/Scripts/Runtime/UI/_GenerateScript/";
 
         var selectObj = Selection.activeGameObject;
         if (!selectObj)

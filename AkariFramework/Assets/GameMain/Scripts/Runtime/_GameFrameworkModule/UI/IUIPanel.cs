@@ -7,7 +7,7 @@ namespace Akari
         /// <summary>
         /// 初始化界面。
         /// </summary>
-        void OnInit(string name, GameObject go, object userData);
+        void OnInit(string name, GameObject go, Transform parent, object userData);
 
         /// <summary>
         /// 界面回收。

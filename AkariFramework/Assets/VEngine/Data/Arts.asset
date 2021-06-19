@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Arts
   m_EditorClassIdentifier: 
   groups:
-  - {fileID: 11400000, guid: 79a5618262a9e8c44ac31eb34a8d3a0d, type: 2}
+  - {fileID: 11400000, guid: bff4ec5d14f668246ab1033d2f09ccdf, type: 2}
+  - {fileID: 11400000, guid: 3dbfb8dbc1659ac41bc0b937db6727c5, type: 2}
   size: 0
   settings: {fileID: 11400000, guid: 3d7f9f558a7f87d42b162fd2836a218e, type: 2}
   buildAssetBundleOptions: 256

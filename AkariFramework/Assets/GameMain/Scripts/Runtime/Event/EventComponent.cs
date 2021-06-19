@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
+using EventHandler = Akari.EventManager.EventHandler;
 
 namespace Akari
 {
     public class EventComponent : GameFrameworkComponent
     {
-        public delegate void EventHandler(GameEvent gameEvent);
-
-        private Dictionary<int, EventHandler> m_EventHandlerMap = new Dictionary<int, EventHandler>();
-
+        private EventManager m_EventManager;
 
         protected override void Awake()
         {
             base.Awake();
+
+            m_EventManager = GameFrameworkEntry.GetModule<EventManager>();
         }
 
 
@@ -20,21 +22,9 @@ namespace Akari
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="eventHandler"></param>
-        public void Subscribe(EventType eventType, EventHandler eventHandler)
+        public void Subscribe(EventType eventType, Akari.EventManager.EventHandler eventHandler)
         {
-            if (m_EventHandlerMap == null)
-            {
-                m_EventHandlerMap = new Dictionary<int, EventHandler>();
-            }
-            int eventTypeID = (int)eventType;
-            if (m_EventHandlerMap.ContainsKey(eventTypeID))
-            {
-                m_EventHandlerMap[eventTypeID] += eventHandler;
-            }
-            else
-            {
-                m_EventHandlerMap.Add(eventTypeID, eventHandler);
-            }
+            m_EventManager.Subscribe(eventType, eventHandler);
         }
 
         /// <summary>
@@ -43,17 +33,7 @@ namespace Akari
         /// </summary>
         public void Unsubscribe(EventType eventType)
         {
-            int eventTypeID = (int)eventType;
-
-            if (m_EventHandlerMap == null)
-            {
-                return;
-            }
-
-            if (m_EventHandlerMap.ContainsKey(eventTypeID))
-            {
-                m_EventHandlerMap.Remove(eventTypeID);
-            }
+            m_EventManager.Unsubscribe(eventType);
         }
         /// <summary>
         /// 取消事件订阅
@@ -61,36 +41,9 @@ namespace Akari
         /// </summary>
         public void Unsubscribe(EventType eventType, EventHandler eventHandler)
         {
-            int eventTypeID = (int)eventType;
-
-            if (m_EventHandlerMap == null)
-            {
-                return;
-            }
-            //删除eventHandler指定的消息响应
-            if (m_EventHandlerMap.ContainsKey(eventTypeID))
-            {
-                m_EventHandlerMap[eventTypeID] -= eventHandler;
-            }
+            m_EventManager.Unsubscribe(eventType, eventHandler);
         }
 
-        /// <summary>
-        /// 触发事件
-        /// </summary>
-        private void Fire(EventType eventType, GameEvent gameEvent)
-        {
-            int eventTypeID = (int)eventType;
-
-            if (m_EventHandlerMap == null)
-            {
-                return;
-            }
-
-            if (m_EventHandlerMap.ContainsKey(eventTypeID))
-            {
-                m_EventHandlerMap[eventTypeID]?.Invoke(gameEvent);
-            }
-        }
 
         /// <summary>
         /// 触发事件 带参数
@@ -98,7 +51,7 @@ namespace Akari
         public void Fire(EventType eventType, params object[] inParams)
         {
             GameEvent gameEvent = new GameEvent(eventType, inParams);
-            Fire(eventType, gameEvent);
+            m_EventManager.Fire(eventType, gameEvent);
         }
 
         /// <summary>
@@ -107,7 +60,7 @@ namespace Akari
         public void Fire(EventType eventType)
         {
             GameEvent gameEvent = new GameEvent();
-            Fire(eventType, gameEvent);
+            m_EventManager.Fire(eventType, gameEvent);
 
         }
     }

@@ -26,10 +26,11 @@ namespace Akari
             }
         }
 
-        public void OnInit(string name,GameObject go,object userData)
+        public virtual void OnInit(string name,GameObject go,Transform parent,object userData)
         {
             m_Name = name;
             m_RootGo = go;
+            m_RootGo.transform.SetParent(parent);
             m_CachedCanvas = m_RootGo.GetOrAddComponent<Canvas>();
             m_CachedCanvas.overrideSorting = true;
 
@@ -46,34 +47,34 @@ namespace Akari
             m_RootGo.GetOrAddComponent<GraphicRaycaster>();
         }
 
-        public void OnOpen(object userData)
+        public virtual void OnOpen(object userData)
         {
             m_CanvasGroup.alpha = 1f;
             m_CanvasGroup.blocksRaycasts = true;
         }
 
-        public void OnClose()
+        public virtual void OnClose()
         {
             m_CanvasGroup.alpha = 0f;
             m_CanvasGroup.blocksRaycasts = false;
         }
 
-        public void OnPause()
+        public virtual void OnPause()
         {
 
         }
 
-        public void OnRecycle()
+        public virtual void OnRecycle()
         {
             GameObject.Destroy(m_RootGo);
         }
 
-        public void OnResume()
+        public virtual void OnResume()
         {
 
         }
 
-        public void OnUpdate()
+        public virtual void OnUpdate()
         {
 
         }

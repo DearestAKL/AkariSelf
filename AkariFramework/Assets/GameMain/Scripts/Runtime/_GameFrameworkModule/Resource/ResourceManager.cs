@@ -4,14 +4,28 @@ using VEngine;
 
 namespace Akari
 {
-    public class ResourceComponent : GameFrameworkComponent
+    /// <summary>
+    /// 资源管理器(基于XAsset)
+    /// </summary>
+    public class ResourceManager : GameFrameworkModule
     {
-        private ResourceManager m_ResourceManager;
 
-        protected override void Awake()
+        public override int Priority
         {
-            base.Awake();
-            m_ResourceManager = GameFrameworkEntry.GetModule<ResourceManager>();
+            get
+            {
+                return 1;
+            }
+        }
+
+        public override void Shutdown()
+        {
+
+        }
+
+        public override void Update(float elapseSeconds, float realElapseSeconds)
+        {
+
         }
 
         /// <summary>
@@ -22,7 +36,7 @@ namespace Akari
         /// <returns></returns>
         public Asset Load(string path, Type type)
         {
-            return m_ResourceManager.Load(path, type);
+            return Asset.Load(path, type);
         }
 
         /// <summary>
@@ -33,17 +47,17 @@ namespace Akari
         /// <returns></returns>
         public Asset LoadAsync(string path, Type type, Action<Asset> completed = null)
         {
-            return m_ResourceManager.LoadAsync(path, type, completed);
+            return Asset.LoadAsync(path, type, completed);
         }
 
         public GameObject InstantiateAsync(string name)
         {
-            return m_ResourceManager.InstantiateAsync(name);
+            return InstantiateObject.InstantiateAsync(name).result;
         }
 
         public void UpdateAssets()
         {
-            m_ResourceManager.UpdateAssets();
+            Asset.UpdateAssets();
         }
     }
 }
