@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Akari
+namespace Akari.UI
 {
     public interface IUIGroup
     {

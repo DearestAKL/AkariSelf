@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Akari.ObjectPool;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,105 +10,81 @@ namespace Akari
 {
     public class ObjectPoolComponent : GameFrameworkComponent
     {
-        //对象池容器
-        public Dictionary<string, ObjectPool> poolDic = new Dictionary<string, ObjectPool>();
-
-        private Transform m_Root;
+        private IObjectPoolManager m_ObjectPoolManager;
 
         protected override void Awake()
         {
             base.Awake();
 
-            var go = new GameObject();
-            go.name = "ObjectPools";
-            m_Root = go.transform;
-        }
-
-
-
-        /// <summary>
-        /// 创建对象池
-        /// </summary>
-        /// <param name="name">对象池名字</param>
-        public void CreatObjectPool(string name,out ObjectPool newObjectPool)
-        {
-            if (poolDic.ContainsKey(name))
-            {
-                //已存在
-                newObjectPool = poolDic[name];
-                return;
-            }
-
-            newObjectPool = new ObjectPool(name, m_Root);
-            poolDic[name] = newObjectPool;
+            m_ObjectPoolManager = GameFrameworkEntry.GetModule<ObjectPoolManager>();
         }
 
         /// <summary>
-        /// 创建对象池
+        /// 检查是否存在对象池。
         /// </summary>
-        /// <param name="name">对象池名字</param>
-        public void CreatObjectPool(string name)
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <returns>是否存在对象池。</returns>
+        public bool HasObjectPool<T>() where T : ObjectBase
         {
-            if (poolDic.ContainsKey(name))
-            {
-                //已存在
-                return;
-            }
-            poolDic[name] = new ObjectPool(name, m_Root);
+            return m_ObjectPoolManager.HasObjectPool<T>();
         }
 
         /// <summary>
-        /// 
+        /// 获取对象池。
         /// </summary>
-        /// <param name="name">对象池名字</param>
-        /// <param name="obj">池中对象</param>
-        /// <param name="count">初始化数量</param>
-        public void CreatObjectPool(string name,GameObject obj,int count)
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <returns>要获取的对象池。</returns>
+        public IObjectPool<T> GetObjectPool<T>() where T : ObjectBase
         {
-            if (poolDic.ContainsKey(name))
-            {
-                //已存在
-                return;
-            }
-            poolDic[name] = new ObjectPool(name, m_Root, obj, count);
+            return m_ObjectPoolManager.GetObjectPool<T>();
         }
 
         /// <summary>
-        /// 获取对象池 没有则创建新的对象池
+        /// 创建允许单次获取的对象池。
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public ObjectPool GetObjectPool(string name)
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="name">对象池名称。</param>
+        /// <returns>要创建的允许单次获取的对象池。</returns>
+        public IObjectPool<T> CreateSingleSpawnObjectPool<T>() where T : ObjectBase
         {
-            if (poolDic.ContainsKey(name))
-            {
-                return poolDic[name];
-            }
-
-            //没有 创建新的
-            //CreatObjectPool(name, out ObjectPool newObjectPool);
-
-            //return newObjectPool;
-
-            return null;
+            return m_ObjectPoolManager.CreateSingleSpawnObjectPool<T>();
         }
 
         /// <summary>
-        /// 从对象池中获取对象
+        /// 创建允许多次获取的对象池。
         /// </summary>
-        public GameObject GetObject(string name)
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <returns>要创建的允许多次获取的对象池。</returns>
+        public IObjectPool<T> CreateMultiSpawnObjectPool<T>() where T : ObjectBase
         {
-            var objectPool = GetObjectPool(name);
-            return objectPool?.GetObject();
+            return m_ObjectPoolManager.CreateMultiSpawnObjectPool<T>();
         }
 
         /// <summary>
-        /// 归还对象到对象池
+        /// 销毁对象池。
         /// </summary>
-        public void PushObject(string name,GameObject poolObj)
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <returns>是否销毁对象池成功。</returns>
+        public bool DestroyObjectPool<T>() where T : ObjectBase
         {
-            var objectPool = GetObjectPool(name);
-            objectPool?.PushObject(poolObj);
+            return m_ObjectPoolManager.DestroyObjectPool<T>();
+        }
+
+        /// <summary>
+        /// 释放对象池中的可释放对象。
+        /// </summary>
+        public void Release()
+        {
+            m_ObjectPoolManager.Release();
+        }
+
+        /// <summary>
+        /// 释放对象池中的所有未使用对象。
+        /// </summary>
+        public void ReleaseAllUnused()
+        {
+            m_ObjectPoolManager.ReleaseAllUnused();
         }
     }
+    
 }

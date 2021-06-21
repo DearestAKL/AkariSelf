@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Akari
+namespace Akari.UI
 {
     public interface IUIHelper
     {

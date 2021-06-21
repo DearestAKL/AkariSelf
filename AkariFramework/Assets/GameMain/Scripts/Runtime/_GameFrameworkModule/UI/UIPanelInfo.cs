@@ -1,4 +1,4 @@
-﻿namespace Akari
+﻿namespace Akari.UI
 {
     public sealed class UIPanelInfo
     {

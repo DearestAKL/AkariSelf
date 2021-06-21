@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Akari.Resource;
+using System;
 using UnityEngine;
 using VEngine;
 
@@ -36,9 +37,18 @@ namespace Akari
             return m_ResourceManager.LoadAsync(path, type, completed);
         }
 
-        public GameObject InstantiateAsync(string name)
+        public GameObject Instantiate(string path)
         {
-            return m_ResourceManager.InstantiateAsync(name);
+            return m_ResourceManager.Instantiate(path);
+        }
+
+        /// <summary>
+        /// 实例化一个 prefab，底层会根据当前帧的空余时间对并行的实例化进行分帧处理，借以让 fps 更平滑，具体参考 Updater 类
+        /// </summary>
+        /// <param name="assetPath"></param>
+        public GameObject InstantiateAsync(string path)
+        {
+            return m_ResourceManager.InstantiateAsync(path);
         }
 
         public void UpdateAssets()

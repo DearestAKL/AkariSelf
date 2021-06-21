@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Akari
+namespace Akari.UI
 {
     public class UIManager : GameFrameworkModule
     {

@@ -24,4 +24,12 @@ MonoBehaviour:
     rootPath: 
     parentGroup: {fileID: 11400000}
     bundle: arts_ui_assets_gamemain_res_prefabs_ui.bundle
+  - _target: {fileID: 0}
+    label: 
+    dependencies: []
+    readOnly: 0
+    path: Assets/GameMain/Res/Prefabs/TestPool.prefab
+    rootPath: 
+    parentGroup: {fileID: 11400000}
+    bundle: arts_ui_assets_gamemain_res_prefabs.bundle
   readOnly: 0

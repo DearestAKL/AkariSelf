@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Akari.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VEngine;
@@ -28,9 +29,7 @@ namespace Akari
 
         public GameObject LoadUIAsset(string name)
         {
-            var asset =GameEntry.Resource.Load(name, typeof(GameObject));
-
-            return GameObject.Instantiate(asset.Get<GameObject>());
+            return GameEntry.Resource.Instantiate(name);
         }
 
         //public GameObject LoadAsynUIAsset(string path, Action<Asset> completed = null)

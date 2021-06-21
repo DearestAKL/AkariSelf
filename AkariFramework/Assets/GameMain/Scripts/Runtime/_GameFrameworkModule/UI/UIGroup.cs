@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Akari
+namespace Akari.UI
 {
     public class UIGroup : IUIGroup
     {
@@ -192,7 +192,7 @@ namespace Akari
         /// </summary>
         /// <param name="uiPanel"></param>
         /// <returns></returns>
-        private UIPanelInfo GetUIFormInfo(UIPanel uiPanel)
+        private UIPanelInfo GetUIPanelInfo(UIPanel uiPanel)
         {
 
             foreach (UIPanelInfo uiPanelInfo in m_UIPanelInfos)
@@ -234,7 +234,7 @@ namespace Akari
                 m_UIPanelInfos.AddFirst(UIPanelInfo.Create(uiPanel));
             }
 
-            UIPanelInfo uiPanelInfo = GetUIFormInfo(uiPanel);
+            UIPanelInfo uiPanelInfo = GetUIPanelInfo(uiPanel);
 
             uiPanel.OnOpen(userData);
             if (uiPanelInfo.Paused)
@@ -256,7 +256,7 @@ namespace Akari
                 //没有该界面
                 return;
             }
-            UIPanelInfo uiPanelInfo = GetUIFormInfo(uiPanel);
+            UIPanelInfo uiPanelInfo = GetUIPanelInfo(uiPanel);
 
             uiPanel.OnClose();
             if (!uiPanelInfo.Paused)
@@ -266,6 +266,10 @@ namespace Akari
             }
         }
 
+        /// <summary>
+        /// 回收界面
+        /// </summary>
+        /// <param name="panelName"></param>
         public void RecycleUIPanel(string panelName)
         {
             var uiPanel = GetUIPanel(panelName);
@@ -275,12 +279,13 @@ namespace Akari
                 return;
             }
 
-            UIPanelInfo uiPanelInfo = GetUIFormInfo(uiPanel);
+            UIPanelInfo uiPanelInfo = GetUIPanelInfo(uiPanel);
             if (m_CachedNode != null && m_CachedNode.Value.UIPanel == uiPanel)
             {
                 m_CachedNode = m_CachedNode.Next;
             }
 
+            uiPanelInfo.Clear();
             m_UIPanelInfos.Remove(uiPanelInfo);
         }
 

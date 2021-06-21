@@ -33,8 +33,8 @@ namespace Akari
         {
             Event = GameFrameworkComponentEntry.GetComponent<EventComponent>();
             Resource = GameFrameworkComponentEntry.GetComponent<ResourceComponent>();
-            //ObjectPool = GameFrameworkComponentEntry.GetComponent<ObjectPoolComponent>();
             UI = GameFrameworkComponentEntry.GetComponent<UIComponent>();
+            ObjectPool = GameFrameworkComponentEntry.GetComponent<ObjectPoolComponent>();
         }
 
         public static ResourceComponent Resource
@@ -49,13 +49,13 @@ namespace Akari
             private set;
         }
 
-        public static ObjectPoolComponent ObjectPool
+        public static UIComponent UI
         {
             get;
             private set;
         }
 
-        public static UIComponent UI
+        public static ObjectPoolComponent ObjectPool
         {
             get;
             private set;

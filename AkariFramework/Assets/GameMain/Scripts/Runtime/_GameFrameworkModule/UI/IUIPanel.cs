@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Akari
+namespace Akari.UI
 {
     public interface IUIPanel
     {

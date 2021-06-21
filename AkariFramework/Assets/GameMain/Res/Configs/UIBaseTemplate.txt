@@ -2,6 +2,8 @@
 // 生成时间：__CREATE_TIME__
 //------------------------------------------------------------
 
+using Akari.UI;
+
 namespace __NAME_SPACE__
 {
     public class __CLASS_NAME__ : __LINEAL_NAME__
